@@ -1,1 +1,1 @@
-# SUSY Parameter Space and DM Analysis
+# SUSY Parameter Space and Dark Matter Analysis
