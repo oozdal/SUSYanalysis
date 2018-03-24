@@ -92,3 +92,59 @@ class parameterset(createproject):
                      self.Sv1Content.append("Mixed")
                      self.MixedSv1[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
 
+
+class BBRlikeContent(createproject):
+    def __init__(self,paramclass):
+        createproject.__init__(self)
+        self.param = {}
+        self.pdata = pd.read_csv(self.parameterspath, sep=" ", header=None, names= ["index","parameters"])
+        for i in range(0, len(self.pdata)):
+             self.param[self.pdata["parameters"][i]] = []
+             for j in range(len(paramclass.data)):
+                  if paramclass.BRcontent[j] + paramclass.Bcontent[j] > .80:
+                       self.param[self.pdata["parameters"][i]].append(paramclass.param[paramclass.pdata["parameters"][i]][j])
+
+class HRlikeContent(createproject):
+    def __init__(self,paramclass):
+        createproject.__init__(self)
+        self.param = {}
+        self.pdata = pd.read_csv(self.parameterspath, sep=" ", header=None, names= ["index","parameters"])
+        for i in range(0, len(self.pdata)):
+             self.param[self.pdata["parameters"][i]] = []
+             for j in range(len(paramclass.data)):
+                  if paramclass.HRcontent[j] > .80:
+                       self.param[self.pdata["parameters"][i]].append(paramclass.param[paramclass.pdata["parameters"][i]][j])
+
+class HlikeContent(createproject):
+    def __init__(self,paramclass):
+        createproject.__init__(self)
+        self.param = {}
+        self.pdata = pd.read_csv(self.parameterspath, sep=" ", header=None, names= ["index","parameters"])
+        for i in range(0, len(self.pdata)):
+             self.param[self.pdata["parameters"][i]] = []
+             for j in range(len(paramclass.data)):
+                  if paramclass.Hcontent[j] > .80:
+                       self.param[self.pdata["parameters"][i]].append(paramclass.param[paramclass.pdata["parameters"][i]][j])
+
+class WlikeContent(createproject):
+    def __init__(self,paramclass):
+        createproject.__init__(self)
+        self.param = {}
+        self.pdata = pd.read_csv(self.parameterspath, sep=" ", header=None, names= ["index","parameters"])
+        for i in range(0, len(self.pdata)):
+             self.param[self.pdata["parameters"][i]] = []
+             for j in range(len(paramclass.data)):
+                  if paramclass.Wcontent[j] > .80:
+                       self.param[self.pdata["parameters"][i]].append(paramclass.param[paramclass.pdata["parameters"][i]][j])
+
+class MixedContent(createproject):
+    def __init__(self,paramclass):
+        createproject.__init__(self)
+        self.param = {}
+        self.pdata = pd.read_csv(self.parameterspath, sep=" ", header=None, names= ["index","parameters"])
+        for i in range(0, len(self.pdata)):
+             self.param[self.pdata["parameters"][i]] = []
+             for j in range(len(paramclass.data)):
+                  if paramclass.mchi1content[j] == "Mixed":
+                       self.param[self.pdata["parameters"][i]].append(paramclass.param[paramclass.pdata["parameters"][i]][j])
+
