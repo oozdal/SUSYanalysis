@@ -14,12 +14,10 @@ class parameterset(createproject):
          for i in range(0, len(self.pdata)):
               self.param[self.pdata["parameters"][i]]=self.data[:,self.pdata["index"][i]]
            
-         self.NormSIxsection()  
-         self.xSectionSignalStrength()
+         self.NormSIxsection()
 
     def NormSIxsection(self):
          
-         global RelicPlanckValue
          RelicPlanckValue = 0.1184
 
          self.NormProtonSI = self.param["ProtonSI"]*(self.param["RELIC"]/RelicPlanckValue)        
@@ -34,7 +32,7 @@ class parameterset(createproject):
              elif self.param["LSP"][i] == 1000012:
                  self.LSPmass.append(self.param["MassSv1"][i])
      
-    def Closest(list, Number):
+    def Closest(self, list, Number):
          aux = []
          for valor in list:
              aux.append(abs(Number-valor))
@@ -42,9 +40,26 @@ class parameterset(createproject):
 
 
     def xSectionSignalStrength(self):
-         
-        self.LSPmass()
 
+         self.LSPmass()
+
+         self.nearestXENON1Txsection = []
+         self.nearestXENONnTxsection = []
+         self.nearestDARWINxsection = []
+
+         for i in range(len(self.data)):
+             self.nearestXENON1Txsection.append(XENONRELIC[self.Closest(XENONWIMPMASS,self.LSPmass[i])])
+             self.nearestXENONnTxsection.append(XENONnTXSECTION[self.Closest(XENONnTWIMPMASS,self.LSPmass[i])])
+             self.nearestDARWINxsection.append(DARWINXSECTION[self.Closest(DARWINWIMPMASS,self.LSPmass[i])])
+
+         self.Xenon1TProtonSIstrength = self.param["ProtonSI"]/self.nearestXENON1Txsection
+         self.Xenon1TNeutronSIstrength = self.param["NeutronSI"]/self.nearestXENON1Txsection
+
+         self.XenonNTProtonSIstrength = self.param["ProtonSI"]/self.nearestXENONnTxsection
+         self.XenonNTNeutronSIstrength = self.param["NeutronSI"]/self.nearestXENONnTxsection
+
+         self.DARWINProtonSIstrength = self.param["ProtonSI"]/self.nearestDARWINxsection
+         self.DARWINNeutronSIstrength = self.param["NeutronSI"]/self.nearestDARWINxsection
 
 
     def Create_mchi1_Content(self):
