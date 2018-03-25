@@ -13,6 +13,39 @@ class parameterset(createproject):
          self.pdata = pd.read_csv(self.parameterspath, sep=" ", header=None, names= ["index","parameters"])
          for i in range(0, len(self.pdata)):
               self.param[self.pdata["parameters"][i]]=self.data[:,self.pdata["index"][i]]
+           
+         self.NormSIxsection()  
+         self.xSectionSignalStrength()
+
+    def NormSIxsection(self):
+         
+         global RelicPlanckValue
+         RelicPlanckValue = 0.1184
+
+         self.NormProtonSI = self.param["ProtonSI"]*(self.param["RELIC"]/RelicPlanckValue)        
+         self.NormNeutronSI = self.param["NeutronSI"]*(self.param["RELIC"]/RelicPlanckValue)
+
+    def LSPmass(self):
+         
+         self.LSPmass = []
+         for i in range(len(self.data)):
+             if self.param["LSP"][i] == 1000022:
+                 self.LSPmass.append(self.param["mchi1"][i])
+             elif self.param["LSP"][i] == 1000012:
+                 self.LSPmass.append(self.param["MassSv1"][i])
+     
+    def Closest(list, Number):
+         aux = []
+         for valor in list:
+             aux.append(abs(Number-valor))
+         return aux.index(min(aux))
+
+
+    def xSectionSignalStrength(self):
+         
+        self.LSPmass()
+
+
 
     def Create_mchi1_Content(self):
          self.mchi1content = []
