@@ -1,6 +1,22 @@
 0 m0
 1 mhf
+3 A0
 5 tanb
+6 tanbp
+7 vR
+8 masshh1
+9 masshh2
+19 mchi1
+26 mcha1
+28 LSP
+29 NLSP
+86 DAMU
+93 RELIC
+94 ProtonSI
+95 ProtonSD
+96 NeutronSI
+97 NeutronSD
+102 Icecube
 121 NMIX11
 122 NMIX12
 123 NMIX13
@@ -17,4 +33,11 @@
 176 SNUMIX17
 177 SNUMIX18
 178 SNUMIX19
-
+341 Microsigmav
+342 PhotonFlux
+343 PositronFlux
+344 AntiProtonFlux
+345 NeutrinoFlux
+346 AntiNeutrinoFlux
+347 MuonFlux
+351 MassSv1
