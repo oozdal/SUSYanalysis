@@ -15,15 +15,24 @@ class parameterset():
          self.pdata = pd.read_csv(parameterspath, sep=" ", header=None, names= ["index","parameters"])
          for i in range(0, len(self.pdata)):
               self.param[self.pdata["parameters"][i]]=self.data[:,self.pdata["index"][i]]
+<<<<<<< HEAD
          
+=======
+           
+>>>>>>> 3b172c21e71a0693d9be88dd87c27a62a1e4a4b3
          self.NormSIxsection()
 
     def NormSIxsection(self):
          
          RelicPlanckValue = 0.1184
 
+<<<<<<< HEAD
          self.param["ProtonSI"] = self.param["ProtonSI"]*(self.param["RELIC"]/RelicPlanckValue)        
          self.param["NeutronSI"] = self.param["NeutronSI"]*(self.param["RELIC"]/RelicPlanckValue)
+=======
+         self.NormProtonSI = self.param["ProtonSI"]*(self.param["RELIC"]/RelicPlanckValue)        
+         self.NormNeutronSI = self.param["NeutronSI"]*(self.param["RELIC"]/RelicPlanckValue)
+>>>>>>> 3b172c21e71a0693d9be88dd87c27a62a1e4a4b3
 
     def LSPmass(self):
          
@@ -50,7 +59,11 @@ class parameterset():
          self.nearestDARWINxsection = []
 
          for i in range(len(self.data)):
+<<<<<<< HEAD
              self.nearestXENON1Txsection.append(XENON1TXSECTION[self.Closest(XENONWIMPMASS,self.LSPmass[i])])
+=======
+             self.nearestXENON1Txsection.append(XENONRELIC[self.Closest(XENONWIMPMASS,self.LSPmass[i])])
+>>>>>>> 3b172c21e71a0693d9be88dd87c27a62a1e4a4b3
              self.nearestXENONnTxsection.append(XENONnTXSECTION[self.Closest(XENONnTWIMPMASS,self.LSPmass[i])])
              self.nearestDARWINxsection.append(DARWINXSECTION[self.Closest(DARWINWIMPMASS,self.LSPmass[i])])
 
