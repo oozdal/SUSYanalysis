@@ -1,6 +1,6 @@
 ###################################################
 
-LUXDATA=np.genfromtxt('/Users/oozdal/ExpDATA/expdata/LUX2014.dat')
+LUXDATA=np.genfromtxt('expdata/LUX2014.dat')
 
 LUXDATALSPMASS=LUXDATA[:,0]
 
@@ -8,7 +8,7 @@ LUXDATARELIC=(LUXDATA[:,1])/1e9
 
 ###################################################
 
-LUX2017=np.loadtxt('/Users/oozdal/ExpDATA/expdata/LUX2017.dat',delimiter=',')
+LUX2017=np.loadtxt('expdata/LUX2017.dat',delimiter=',')
 
 LUX2017WIMPMASS=LUX2017[:,0]
 
@@ -16,27 +16,27 @@ LUX2017RELIC=(LUX2017[:,1])*1e36
 
 ####################################################
 
-XENONDATA=np.loadtxt('/Users/oozdal/ExpDATA/expdata/XENON1T.dat',delimiter=',')
+XENONDATA=np.loadtxt('expdata/XENON1T.dat',delimiter=',')
 
 XENONWIMPMASS=XENONDATA[:,0]
 
-XENON1TXSECTION=(XENONDATA[:,1])*1e36 # to convert cm^2 to pb
+XENONRELIC=(XENONDATA[:,1])*1e36 # to convert cm^2 to pb
 
-XENON1TXSECTION2sigmamax = XENON1TXSECTION + XENON1TXSECTION*47.5/100
-XENON1TXSECTION2sigmamin = XENON1TXSECTION - XENON1TXSECTION*47.5/100
-XENON1TXSECTION1sigmamax = XENON1TXSECTION + XENON1TXSECTION*34/100
-XENON1TXSECTION1sigmamin = XENON1TXSECTION - XENON1TXSECTION*34/100
+XENONRELIC2sigmamax = XENONRELIC+XENONRELIC*47.5/100
+XENONRELIC2sigmamin = XENONRELIC-XENONRELIC*47.5/100
+XENONRELIC1sigmamax = XENONRELIC+XENONRELIC*34/100
+XENONRELIC1sigmamin = XENONRELIC-XENONRELIC*34/100
 
 #####################################################
 
-SQUARKSCMS=np.loadtxt('/Users/oozdal/ExpDATA/expdata/gluino_squarks.dat',delimiter=',')
+SQUARKSCMS=np.loadtxt('expdata/gluino_squarks.dat',delimiter=',')
 #SQUARKSCMS=np.genfromtxt('gluino_squarks.dat')
 
 GLUINOMASS=SQUARKSCMS[:,0]
 
 SQUARKSMASS=SQUARKSCMS[:,1]
 
-oldobslim=np.loadtxt('/Users/oozdal/ExpDATA/expdata/oldobslim.dat',delimiter=',')
+oldobslim=np.loadtxt('expdata/oldobslim.dat',delimiter=',')
 
 gluinoobslim=oldobslim[:,0]
 
@@ -44,7 +44,7 @@ squarksobslim=oldobslim[:,1]
 
 ######################################################
 
-DARWIN=np.loadtxt('/Users/oozdal/ExpDATA/expdata/DARWIN.dat',delimiter=',')
+DARWIN=np.loadtxt('expdata/DARWIN.dat',delimiter=',')
 
 DARWINWIMPMASS=DARWIN[:,0]
 
@@ -52,7 +52,7 @@ DARWINXSECTION=(DARWIN[:,1])*1e36
 
 #####################################################
 
-XENONnTDATA=np.loadtxt('/Users/oozdal/ExpDATA/expdata/XENONnT.dat',delimiter=',')
+XENONnTDATA=np.loadtxt('expdata/XENONnT.dat',delimiter=',')
 
 XENONnTWIMPMASS=XENONnTDATA[:,0]
 
@@ -60,7 +60,7 @@ XENONnTXSECTION=(XENONnTDATA[:,1])*1e36
 
 ####################################################
 
-observedxsection13TeVZplldata=np.loadtxt('/Users/oozdal/ExpDATA/expdata/observedxsection13TeVZpll.dat',delimiter=',')
+observedxsection13TeVZplldata=np.loadtxt('expdata/observedxsection13TeVZpll.dat',delimiter=',')
 
 observedxsection13TeVZpmassforll=observedxsection13TeVZplldata[:,0]
 
@@ -73,7 +73,7 @@ observedxsection13TeVZpll1sigmamin = observedxsection13TeVZpll-observedxsection1
 
 ###
 
-expectedxsection13TeVZplldata=np.loadtxt('/Users/oozdal/ExpDATA/expdata/expectedxsection13TeVZpll.dat',delimiter=',')
+expectedxsection13TeVZplldata=np.loadtxt('expdata/expectedxsection13TeVZpll.dat',delimiter=',')
 
 expectedxsection13TeVZpmassforll=expectedxsection13TeVZplldata[:,0]
 
@@ -86,7 +86,7 @@ expectedxsection13TeVZpll1sigmamin = expectedxsection13TeVZpll-expectedxsection1
 
 ###################################################
 
-observedxsection13TeVZpqqbardata=np.loadtxt('/Users/oozdal/ExpDATA/expdata/observedxsection13TeVZpqqbar.dat',delimiter=',')
+observedxsection13TeVZpqqbardata=np.loadtxt('expdata/observedxsection13TeVZpqqbar.dat',delimiter=',')
 
 observedxsection13TeVZpmassforqqbar=observedxsection13TeVZpqqbardata[:,0]
 
@@ -99,7 +99,7 @@ observedxsection13TeVZpqqbar1sigmamin = observedxsection13TeVZpqqbar-observedxse
 
 ###
 
-expectedxsection13TeVZpqqbardata=np.loadtxt('/Users/oozdal/ExpDATA/expdata/expectedxsection13TeVZpqqbar.dat',delimiter=',')
+expectedxsection13TeVZpqqbardata=np.loadtxt('expdata/expectedxsection13TeVZpqqbar.dat',delimiter=',')
 
 expectedxsection13TeVZpmassforqqbar=expectedxsection13TeVZpqqbardata[:,0]
 
@@ -112,25 +112,25 @@ expectedxsection13TeVZpqqbar1sigmamin = expectedxsection13TeVZpqqbar-expectedxse
 
 ###################################################
 
-fermilatbbbardata=np.loadtxt('/Users/oozdal/ExpDATA/expdata/fermilatbbbar.dat',delimiter=',')
+fermilatbbbardata=np.loadtxt('expdata/fermilatbbbar.dat',delimiter=',')
 fermilatbbbarWIMPmass=fermilatbbbardata[:,0]
 fermilatbbbarsigmav=fermilatbbbardata[:,1]
 
 ###################################################
 
-fermilatWWdata=np.loadtxt('/Users/oozdal/ExpDATA/expdata/fermilatWW.dat',delimiter=',')
+fermilatWWdata=np.loadtxt('expdata/fermilatWW.dat',delimiter=',')
 fermilatWWWIMPmass=fermilatWWdata[:,0]
 fermilatWWsigmav=fermilatWWdata[:,1]
 
 ##################################################
 
-fermilattautaudata=np.loadtxt('/Users/oozdal/ExpDATA/expdata/fermilattautau.dat',delimiter=',')
+fermilattautaudata=np.loadtxt('expdata/fermilattautau.dat',delimiter=',')
 fermilattautauWIMPmass=fermilattautaudata[:,0]
 fermilattautausigmav=fermilattautaudata[:,1]
 
 ##################################################
 
-fermilatmumudata=np.loadtxt('/Users/oozdal/ExpDATA/expdata/fermilatmumu.dat',delimiter=',')
+fermilatmumudata=np.loadtxt('expdata/fermilatmumu.dat',delimiter=',')
 fermilatmumuWIMPmass=fermilatmumudata[:,0]
 fermilatmumusigmav=fermilatmumudata[:,1]
 
