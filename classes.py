@@ -1,7 +1,7 @@
 class Standard_Model():
     def __init__(self):
 
-        self.Constants()
+         self.Constants()
 
     def Constants(self):
 
@@ -15,8 +15,36 @@ class parameterset():
          self.pdata = pd.read_csv(parameterspath, sep=" ", header=None, names= ["index","parameters"])
          for i in range(0, len(self.pdata)):
               self.param[self.pdata["parameters"][i]]=self.data[:,self.pdata["index"][i]]
-         
+                  
+         self.AbsoluteParam()
          self.NormSIxsection()
+         self.Indirect_Detection()
+         self.Muong2()
+
+    def Muong2(self):
+
+         self.muong2_1sig = {}
+         self.muong2_2sig = {}
+
+         self.param["DAMU"] = self.param["DAMU"]*1e10
+
+         for i in range(len(self.pdata)):
+             self.muong2_1sig[self.pdata["parameters"][i]] = []
+             self.muong2_2sig[self.pdata["parameters"][i]] = []
+
+             for j in range(len(self.data)):
+                 if self.param["DAMU"][j] > 20.7 and self.param["DAMU"][j] < 36.7:
+                     self.muong2_1sig[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+
+                 elif self.param["DAMU"][j] > 12.7 and self.param["DAMU"][j] < 44.7:
+                     self.muong2_2sig[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+
+    def Indirect_Detection(self):
+                  
+         RelicPlanckValue = 0.1184
+
+         self.param["Microsigmav"] = self.param["Microsigmav"]*((self.param["RELIC"]/RelicPlanckValue)**2)
+
 
     def NormSIxsection(self):
          
@@ -24,6 +52,11 @@ class parameterset():
 
          self.param["ProtonSI"] = self.param["ProtonSI"]*(self.param["RELIC"]/RelicPlanckValue)        
          self.param["NeutronSI"] = self.param["NeutronSI"]*(self.param["RELIC"]/RelicPlanckValue)
+ 
+    def AbsoluteParam(self):
+         
+         self.param["mchi1"] = abs(self.param["mchi1"])
+ 
 
     def LSPmass(self):
          
