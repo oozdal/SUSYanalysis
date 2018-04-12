@@ -56,7 +56,7 @@ class parameterset():
     def AbsoluteParam(self):
          
          self.param["mchi1"] = abs(self.param["mchi1"])
- 
+         self.param["mchi2"] = abs(self.param["mchi2"]) 
 
     def LSPmass(self):
          
@@ -67,6 +67,30 @@ class parameterset():
              elif self.param["LSP"][i] == 1000012:
                  self.LSPmass.append(self.param["MassSv1"][i])
      
+         self.LSPmass = abs(np.array(self.LSPmass))
+
+    def NLSPmass(self):
+          
+         self.NLSPmass = []
+         for i in range(len(self.data)):
+             if self.param["NLSP"][i] == 1000012:
+                 self.NLSPmass.append(self.param["MassSv1"][i])
+             elif self.param["NLSP"][i] == 1000023:
+                 self.NLSPmass.append(self.param["mchi2"][i])
+             elif self.param["NLSP"][i] == 1000024:
+                 self.NLSPmass.append(self.param["mcha1"][i])
+             elif self.param["NLSP"][i] == 1000011:
+                 self.NLSPmass.append(self.param["stau1"][i])
+             elif self.param["NLSP"][i] == 1000021:
+                 self.NLSPmass.append(self.param["gluino"][i])
+             elif self.param["NLSP"][i] == 1000022:
+                 self.NLSPmass.append(self.param["mchi1"][i])
+             else:
+                 self.NLSPmass.append(1e40)
+    
+         self.NLSPmass = abs(np.array(self.NLSPmass))
+
+
     def Closest(self, list, Number):
          aux = []
          for valor in list:

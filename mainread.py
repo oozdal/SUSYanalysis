@@ -13,18 +13,20 @@ SM = Standard_Model()
 
 #######################################################
 
-#neutLHC=parameterset("neutralinolsp.dat")
-#neutLHC.Create_mchi1_Content()
+neutLHC=parameterset("neutralinolsp.dat")
+neutLHC.Create_mchi1_Content()
+neutLHC.CreateSv1Content()
 
-#neutrelic=parameterset("neutralinorelic.dat")
-#neutrelic.Create_mchi1_Content()
+neutrelic=parameterset("neutralinorelic.dat")
+neutrelic.Create_mchi1_Content()
 
 sneutrinoLHC=parameterset("sneutrinolsp.dat")
 sneutrinoLHC.CreateSv1Content()
 
 sneutrinorelic=parameterset("sneutrinorelic.dat")
 sneutrinorelic.CreateSv1Content()
-#sneutrinorelic.xSectionSignalStrength()
+sneutrinorelic.xSectionSignalStrength()
+
 ########################################################
 
-execfile("makegraph.py")
+#execfile("makegraph.py")
