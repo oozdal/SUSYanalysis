@@ -199,4 +199,26 @@ class parameterset():
                  else:
                      self.Sv1Content.append("Mixed")
                      self.MixedSv1[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+    
 
+    def FineTuning(self):
+         
+         A = self.param["gLSUSY"]**2 + self.param["gRSUSY"]**2 + self.param["gRBL"]**2
+         B = self.param["gBLSUSY"]**2 + self.param["gRSUSY"]**2 + self.param["gBLR"]**2 + self.param["gRBL"]**2 - 2*self.param["gBLR"]*self.param["gRSUSY"] - 2*self.param["gRBL"]*self.param["gBLSUSY"]
+         C = (self.param["gLSUSY"]**2)*(self.param["gRSUSY"] - self.param["gBLR"])**2 + (self.param["gBLSUSY"]**2)*(self.param["gLSUSY"]**2 + self.param["gRSUSY"]**2) - 2*self.param["gBLSUSY"]*(self.param["gLSUSY"]**2 + self.param["gBLR"]*self.param["gRSUSY"])*self.param["gRBL"] + (self.param["gBLR"]**2 + self.param["gLSUSY"]**2)*self.param["gRBL"]**2
+         
+         self.Zboson = np.sqrt((C*self.param["vev"]**2)/(4*B))
+
+         ExprForZpSquared = ((A*B - C)*self.param["vev"]**2 + ((B**2)*(self.param["vR"]**2))) / (4*B)
+         self.Zprime = np.sqrt(ExprForZpSquared)
+
+
+
+    def ProduceNewSLHA(self):
+        pass
+
+
+
+
+
+    
