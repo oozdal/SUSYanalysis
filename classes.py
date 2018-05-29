@@ -1,3 +1,4 @@
+
 class Standard_Model():
     def __init__(self):
 
@@ -57,6 +58,14 @@ class parameterset():
          
          self.param["mchi1"] = abs(self.param["mchi1"])
          self.param["mchi2"] = abs(self.param["mchi2"]) 
+
+    def FixedParam(self):
+
+         for i in range(len(self.data)):
+            if self.param["SUSYFT"][i] < 0.:
+                self.param["SUSYFT"][i] = 1e40
+            else:
+                continue
 
     def LSPmass(self):
          
@@ -201,18 +210,162 @@ class parameterset():
                      self.MixedSv1[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
     
 
-    def FineTuning(self):
+    def BLRSSMFineTuning(self):
          
-         A = self.param["gLSUSY"]**2 + self.param["gRSUSY"]**2 + self.param["gRBL"]**2
-         B = self.param["gBLSUSY"]**2 + self.param["gRSUSY"]**2 + self.param["gBLR"]**2 + self.param["gRBL"]**2 - 2*self.param["gBLR"]*self.param["gRSUSY"] - 2*self.param["gRBL"]*self.param["gBLSUSY"]
-         C = (self.param["gLSUSY"]**2)*(self.param["gRSUSY"] - self.param["gBLR"])**2 + (self.param["gBLSUSY"]**2)*(self.param["gLSUSY"]**2 + self.param["gRSUSY"]**2) - 2*self.param["gBLSUSY"]*(self.param["gLSUSY"]**2 + self.param["gBLR"]*self.param["gRSUSY"])*self.param["gRBL"] + (self.param["gBLR"]**2 + self.param["gLSUSY"]**2)*self.param["gRBL"]**2
+         self.A = self.param["gLSUSY"]**2 + self.param["gRSUSY"]**2 + self.param["gRBL"]**2
+         self.B = self.param["gBLSUSY"]**2 + self.param["gRSUSY"]**2 + self.param["gBLR"]**2 + self.param["gRBL"]**2 - 2*self.param["gBLR"]*self.param["gRSUSY"] - 2*self.param["gRBL"]*self.param["gBLSUSY"]
+         self.C = (self.param["gLSUSY"]**2)*(self.param["gRSUSY"] - self.param["gBLR"])**2 + (self.param["gBLSUSY"]**2)*(self.param["gLSUSY"]**2 + self.param["gRSUSY"]**2) - 2*self.param["gBLSUSY"]*(self.param["gLSUSY"]**2 + self.param["gBLR"]*self.param["gRSUSY"])*self.param["gRBL"] + (self.param["gBLR"]**2 + self.param["gLSUSY"]**2)*self.param["gRBL"]**2
          
-         self.Zboson = np.sqrt((C*self.param["vev"]**2)/(4*B))
+         self.ALR1 = self.param["gBLSUSY"]**2 + self.param["gRSUSY"]**2 + self.param["gBLR"]**2 + self.param["gRBL"]**2 - 2*self.param["gRSUSY"]*self.param["gBLR"] - 2*self.param["gBLSUSY"]*self.param["gRBL"]
 
-         ExprForZpSquared = ((A*B - C)*self.param["vev"]**2 + ((B**2)*(self.param["vR"]**2))) / (4*B)
-         self.Zprime = np.sqrt(ExprForZpSquared)
+         self.ALR2 = self.param["gRSUSY"]**2 + self.param["gRBL"]**2 - (self.param["gRSUSY"]*self.param["gBLR"]) - (self.param["gBLSUSY"]*self.param["gRBL"])
+         self.ALR3 = self.param["gLSUSY"]**2 + self.param["gRSUSY"]**2 + self.param["gRBL"]**2
+
+############################################## Checking masses ##############################################
+         self.Zboson = np.sqrt((self.C*self.param["vev"]**2)/(4*self.B))
+
+         self.ExprForZpSquared = ((self.A*self.B - self.C)*self.param["vev"]**2 + ((self.B**2)*(self.param["vR"]**2))) / (4*self.B)
+         self.Zprime = np.sqrt(self.ExprForZpSquared)
+
+         self.ApproxExprForZpSquared = (1/4.)*self.ALR1*self.param["vR"]**2
+         self.ApproxZprime = np.sqrt(self.ApproxExprForZpSquared)
+
+###################################### Checking FT Expressions #############################################
+
+         self.Beta = np.arctan(self.param["tanb"])
+         self.BetaPrime = np.arctan(self.param["tanbp"])
+
+         self.Coeff1 = self.C/(self.ALR3*self.B)
+         self.Coeff2 = self.ALR2/self.ALR1
+
+         self.AngleCoeff = np.cos(2*self.BetaPrime)/np.cos(2*self.Beta)
+
+         self.MSSMFirstTerm = (self.param["mHd2SUSY"])/((self.param["tanb"]**2)-1.)
+         self.MSSMSecondTerm = ((self.param["mHu2SUSY"])*(self.param["tanb"]**2))/((self.param["tanb"]**2)-1.)
+         self.MSSMThirdTerm = (abs(self.param["MuSUSY"])**2)
+
+         self.TermForZp = self.Coeff2*((self.param["massVZR"]**2)/2.)*self.AngleCoeff
+
+         self.MSSMPart = self.MSSMFirstTerm - self.MSSMSecondTerm - self.MSSMThirdTerm
+
+         self.MZ2DivBy2 = self.Coeff1*(self.MSSMPart - self.TermForZp)
+
+         self.CheckforZboson = np.sqrt(abs(2.*self.MZ2DivBy2))
+
+##################################### Calculate FT #########################################################
+
+         CoeffmHd2 = abs(self.Coeff1*self.MSSMFirstTerm)
+         CoeffmHu2 = abs(self.Coeff1*self.MSSMSecondTerm)
+         CoeffMu   = abs(self.Coeff1*self.MSSMThirdTerm)
+         CoeffZp   = abs(self.Coeff1*self.TermForZp)
+    
+         self.EWFT = []
+
+         for i in range(len(self.data)):
+             ChooseMaxSeries = {"CoeffmHd2":CoeffmHd2[i],"CoeffmHu2":CoeffmHu2[i],"CoeffMu":CoeffMu[i],"CoeffZp":CoeffZp[i]}
+             ChooseMaxSeries = pd.Series(ChooseMaxSeries) 
+             
+             MaxCoeff = ChooseMaxSeries.values.max()
+             EWFT_list = ChooseMaxSeries.values.max()/((self.Zboson[i]**2)/2)
+
+             self.EWFT.append(EWFT_list)
+
+         
+         self.EWFTlt500 = {}
+         self.EWFT500_1000 = {}
+         self.EWFT1000_5000 = {}
+         self.EWFTbt5000 = {}
+
+         for i in range(len(self.pdata)):
+             self.EWFTlt500[self.pdata["parameters"][i]] = []
+             self.EWFT500_1000[self.pdata["parameters"][i]] = []
+             self.EWFT1000_5000[self.pdata["parameters"][i]] = []
+             self.EWFTbt5000[self.pdata["parameters"][i]] = []
+
+             for j in range(len(self.data)):
+                 if self.EWFT[j] <= 500.:
+                     self.EWFTlt500[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+                 if self.EWFT[j] > 500. and self.EWFT[j] <= 1000.:
+                     self.EWFT500_1000[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+                 if self.EWFT[j] > 1000. and self.EWFT[j] <= 5000.:
+                     self.EWFT1000_5000[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+                 if self.EWFT[j] > 5000.:
+                     self.EWFTbt5000[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+
+    def FineTuning(self,FTScale):
+        
+         self.FTScale = FTScale
+
+         self.FixedParam()
+
+         if self.FTScale == "GUT":
+
+            for i in range(len(self.param["GUTFT"])):
+                if self.param["GUTFT"][i] < 0:
+                    self.param["GUTFT"][i] = 1e40
+                else:
+                    continue
 
 
+            self.GUTFT_LT500 = {}
+            self.GUTFT_500_1000 = {}
+            self.GUTFT_1000_5000 = {}
+            self.GUTFT_GT5000 = {}
+
+            for i in range(len(self.pdata)):
+                self.GUTFT_LT500[self.pdata["parameters"][i]] = []
+                self.GUTFT_500_1000[self.pdata["parameters"][i]] = []
+                self.GUTFT_1000_5000[self.pdata["parameters"][i]] = []
+                self.GUTFT_GT5000[self.pdata["parameters"][i]] = []
+
+                for j in range(len(self.data)):
+                    if self.param["GUTFT"][j] <= 500.:
+                        self.GUTFT_LT500[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+
+                    elif self.param["GUTFT"][j] > 500. and self.param["GUTFT"][j] <= 1000.:
+                        self.GUTFT_500_1000[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+
+                    elif self.param["GUTFT"][j] > 1000. and self.param["GUTFT"][j] <= 5000.:
+                        self.GUTFT_1000_5000[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+    
+                    elif self.param["GUTFT"][j] >= 5000. and self.param["GUTFT"][j] <= 20000:
+                        self.GUTFT_GT5000[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+                    else:
+                        continue
+
+         if self.FTScale == "SUSY":
+
+            for i in range(len(self.param["SUSYFT"])):
+                if self.param["SUSYFT"][i] < 0:
+                    self.param["SUSYFT"][i] = 1e40
+                else:
+                    continue
+
+            self.SUSYFT_LT500 = {}
+            self.SUSYFT_500_1000 = {}
+            self.SUSYFT_1000_5000 = {}
+            self.SUSYFT_GT5000 = {}
+
+            for i in range(len(self.pdata)):
+                self.SUSYFT_LT500[self.pdata["parameters"][i]] = []
+                self.SUSYFT_500_1000[self.pdata["parameters"][i]] = []
+                self.SUSYFT_1000_5000[self.pdata["parameters"][i]] = []
+                self.SUSYFT_GT5000[self.pdata["parameters"][i]] = []
+
+                for j in range(len(self.data)):
+                    if self.param["SUSYFT"][j] > 0.1 and self.param["SUSYFT"][j] <= 500.:
+                        self.SUSYFT_LT500[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+
+                    elif self.param["SUSYFT"][j] > 500. and self.param["SUSYFT"][j] <= 1000.:
+                        self.SUSYFT_500_1000[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+
+                    elif self.param["SUSYFT"][j] > 1000. and self.param["SUSYFT"][j] <= 5000.:
+                        self.SUSYFT_1000_5000[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+
+                    elif self.param["SUSYFT"][j] >= 5000. and self.param["SUSYFT"][j] <= 20000:
+                        self.SUSYFT_GT5000[self.pdata["parameters"][i]].append(self.param[self.pdata["parameters"][i]][j])
+                    else:
+                        continue
 
     def ProduceNewSLHA(self):
         pass
